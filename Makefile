@@ -2,7 +2,7 @@ build:
 	go build -o bin/app.exe
 
 run:
-	go run .
+	go run cmd/api/main.go
 
 test:
 	go test .\... -count=1
