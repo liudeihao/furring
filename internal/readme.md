@@ -19,7 +19,7 @@ Service 业务逻辑层
 
 
 
-Handler/Controller 表现层：
+ManagementHandler/Controller 表现层：
 
 职责：
 - 处理HTTP请求和响应（如解析JSON参数、设置状态码、返回数据格式）。
