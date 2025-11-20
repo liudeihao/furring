@@ -1,0 +1,11 @@
+jwt:
+  key: "this-needs-to-be-filled"
+  issuer: "furring"
+
+db:
+  driver: "sqlite"
+  dsn: "test.db"
+
+server:
+  addr: "0.0.0.0"
+  port: "8080"
