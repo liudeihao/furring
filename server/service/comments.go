@@ -14,7 +14,7 @@ func NewCommentService() *CommentService {
     return &CommentService{}
 }
 
-func (*CommentService) GetComment(id uint) (*model.CommentResponse, error) {
+func (c *CommentService) GetComment(id uint) (*model.CommentResponse, error) {
     comment, err := repo.Comment.GetByID(id)
     if err != nil {
         if errors.Is(err, gorm.ErrRecordNotFound) {
@@ -30,8 +30,9 @@ func (*CommentService) GetComment(id uint) (*model.CommentResponse, error) {
         return nil, err
     }
     return &model.CommentResponse{
-        Username: user.Username,
-        Content:  comment.Content,
+        CommentID: comment.ID,
+        Username:  user.Username,
+        Content:   comment.Content,
     }, nil
 }
 

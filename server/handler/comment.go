@@ -20,6 +20,7 @@ func NewCommentHandler(commentService *service.CommentService) *CommentHandler {
 
 func (h *CommentHandler) RegisterRoutes(router gin.IRouter) {
     comment := router.Group("/comment")
+    comment.GET("/:id", h.GetComment)
     comment.POST("/", h.Comment)
 
     private := comment.Group("/comment")
@@ -29,7 +30,18 @@ func (h *CommentHandler) RegisterRoutes(router gin.IRouter) {
 }
 
 func (h *CommentHandler) GetComment(c *gin.Context) {
-
+    id := ParseID(c)
+    comment, err := h.commentService.GetComment(id)
+    if err != nil {
+        switch {
+        case errors.Is(err, service.ErrCommentNotFound):
+            response.NotFound(c, "获取评论失败")
+        default:
+            response.Internal(c, err)
+        }
+        return
+    }
+    response.OK(c, gin.H{"comment": comment})
 }
 
 func (h *CommentHandler) Comment(c *gin.Context) {

@@ -43,6 +43,11 @@ type UserPostsResponse struct {
 }
 
 type CommentResponse struct {
-    Username string `json:"username"`
-    Content  string `json:"content"`
+    CommentID uint   `json:"comment_id"`
+    Username  string `json:"username"`
+    Content   string `json:"content"`
+}
+
+type PostCommentsResponse struct {
+    Comments []CommentResponse `json:"comments"`
 }

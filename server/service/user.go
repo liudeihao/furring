@@ -16,7 +16,7 @@ func NewUserService() *UserService {
 type UserService struct{}
 
 func (s *UserService) GetUserPosts(id uint) (*model.UserPostsResponse, error) {
-    posts, err := repo.Post.GetList(repo.FilterByUserid(id))
+    posts, err := repo.Post.GetList(repo.FilterByUserID(id))
     if len(posts) == 0 {
         return nil, ErrPostNotFound
     }
