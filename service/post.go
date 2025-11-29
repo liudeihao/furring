@@ -93,22 +93,17 @@ func (s *PostService) Delete(userid uint, postid uint) error {
 }
 
 func (s *PostService) GetComments(postid uint) ([]model.CommentResponse, error) {
-    comments, err := repo.Comment.GetList(
-        repo.FilterByPostID(postid),
-    )
+    sql := "SELECT id, user_id, username, content FROM comments JOIN users ON comments.user_id = users.id WHERE comments.post_id = ?"
+    var comments []model.CommentResponse
+    result := repo.DB.Raw(sql, postid).Scan(&comments)
+
+    err := result.Error
     if err != nil {
         return nil, err
     }
     if len(comments) == 0 {
         return nil, ErrCommentNotFound
     }
-    resp := make([]model.CommentResponse, len(comments))
-    for i, comment := range comments {
-        resp[i] = model.CommentResponse{
-            CommentID: comment.ID,
-            Username:  comment.UserID,
-            Content:   comment.Content,
-        }
-    }
-    return resp, nil
+
+    return comments, nil
 }
